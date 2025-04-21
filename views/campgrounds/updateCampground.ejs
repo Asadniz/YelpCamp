@@ -1,0 +1,55 @@
+<% layout('layouts/boilerplate') %>
+    <h1 class='text-center mb-3'>Update Campground</h1>
+    <div class="row">
+        <div class="col-md-6 offset-3 mt-2">
+            <form class="needsValidation" action="/campgrounds/<%=campground._id%>?_method=put" method="post"
+                novalidate>
+                <div class='mb-3'>
+                    <label class='form-label' for="title">Title</label>
+                    <input class='form-control' type="text" id="title" name='campground[title]'
+                        value="<%=campground.title%>" required>
+                    <div class='invalid-feedback'>Campground must have a title.</div>
+                    <div class='valid-feedback'>Looks good!</div>
+                </div>
+                <div class='mb-3'>
+                    <label class='form-label' for="price">Price</label>
+                    <div class="input-group">
+                        <span class='input-group-text'>$</span>
+                        <input class='form-control' type="text" id="price" name='campground[price]'
+                            value="<%=campground.price%>" required>
+                        <div class='invalid-feedback'>Campground must have a price.</div>
+                        <div class='valid-feedback'>Looks good!</div>
+                    </div>
+                </div>
+                <div class='mb-3'>
+                    <label class='form-label' for="location">Location</label>
+                    <input class='form-control' type="text" id="location" name='campground[location]'
+                        value="<%=campground.location%>" required>
+                    <div class='invalid-feedback'>Campground location must be defined.</div>
+                    <div class='valid-feedback'>Looks good!</div>
+                </div>
+
+                <div class='mb-3'>
+                    <label class='form-label' for="image">Image URL</label>
+                    <input class='form-control' type="text" id="image" name='campground[image]'
+                        value="<%=campground.image%>" required>
+                    <div class='invalid-feedback'>At least one campground image should be provided.</div>
+                    <div class='valid-feedback'>Looks good!</div>
+                </div>
+
+                <div class='mb-4'>
+                    <label class='form-label' for="description">Description</label>
+                    <textarea class='form-control' type="text" id="description" name='campground[description]'
+                        required><%=campground.description%></textarea>
+                    <div class='invalid-feedback'>Campground activities should be provided.</div>
+                    <div class='valid-feedback'>Looks good!</div>
+                </div>
+
+                <div class="mb-3">
+                    <button class='btn btn-success'>Update Campground</button>
+                    <button class='btn btn-dark' type="button"
+                        onclick="window.location.href ='/campgrounds/<%=campground._id%>';">Back</button>
+                </div>
+            </form>
+        </div>
+    </div>

@@ -1,0 +1,24 @@
+<% layout('layouts/boilerplate') %>
+    <h1 class='title text-center'>Register your account</h1>
+    <div class='row justify-content-center'>
+        <div class="col-md-6 ">
+            <form class="form needsValidation" action="/register" method="post" novalidate>
+                <div class='mb-3'>
+                    <label class="form-label" for="username">Username: </label>
+                    <input class="form-control" type="text" name="username" id="username" required>
+                    <div class='valid-feedback'>Looks Good!</div>
+                </div>
+                <div class='mb-3'>
+                    <label class="form-label" for="email">Email: </label>
+                    <input class="form-control" type="email" name="email" id="email" required>
+                    <div class='valid-feedback'>Looks Good!</div>
+                </div>
+                <div class='mb-3'>
+                    <label class="form-label" for="password">Password: </label>
+                    <input class="form-control" type="password" name="password" id="password" required>
+                    <div class='valid-feedback'>Looks Good!</div>
+                </div>
+                <button class='btn btn-primary'>Register Account</button>
+            </form>
+        </div>
+    </div>

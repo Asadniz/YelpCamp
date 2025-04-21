@@ -1,0 +1,22 @@
+<% layout('layouts/boilerplate') %>
+    <h1 class='title text-center'>YelpCamp</h1>
+    <div class='row justify-content-center'>
+        <div class="col-md-6 ">
+            <form class="form needsValidation" action="/login" method="post" novalidate>
+                <div class='mb-3'>
+                    <label class="form-label" for="username">Username: </label>
+                    <input class="form-control" type="text" name="username" id="username" required>
+                    <div class='valid-feedback'>Looks Good!</div>
+                </div>
+                <div class='mb-3'>
+                    <label class="form-label" for="password">Password: </label>
+                    <input class="form-control" type="password" name="password" id="password" required>
+                    <div class='valid-feedback'>Looks Good!</div>
+                </div>
+                <div class='mb-3 d-flex align-items-center'>
+                    <button class='btn btn-primary'>Login</button>
+                    <p class='pt-3 mx-3'>Don't have an account? <a href="/register">Register now!</a></p>
+                </div>
+            </form>
+        </div>
+    </div>

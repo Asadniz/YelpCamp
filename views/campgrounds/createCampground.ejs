@@ -1,0 +1,54 @@
+<% layout('layouts/boilerplate') %>
+    <div class='row'>
+        <h1 class='text-center pb-3'>Add Campground</h1>
+        <div class='col-md-6 offset-3'>
+            <form class="needsValidation" action="/campgrounds" method="post" novalidate enctype="multipart/form-data">
+
+                <div class='mb-3'>
+                    <label class='form-label' for="title">Title</label>
+                    <input class='form-control' type="text" id="title" name='campground[title]' required>
+                    <div class='invalid-feedback'>Campground must have a title.</div>
+                    <div class='valid-feedback'>Looks good!</div>
+                </div>
+
+                <div class='mb-3'>
+                    <label class='form-label' for="price">Campground Price</label>
+                    <div class='input-group'>
+                        <span class='input-group-text'>$</span>
+                        <input class='form-control' type="text" id="price" name='campground[price]' placeholder="0.0"
+                            required>
+                        <div class='invalid-feedback'>Campground must have a price.</div>
+                        <div class='valid-feedback'>Looks good!</div>
+                    </div>
+                </div>
+
+                <div class='mb-3'>
+                    <label class='form-label' for="location">Location</label>
+                    <input class='form-control' type="text" id="location" name='campground[location]' required>
+                    <div class='invalid-feedback'>Campground location must be defined.</div>
+                    <div class='valid-feedback'>Looks good!</div>
+                </div>
+
+                <div class='mb-3'>
+                    <input type="file" name='image' multiple>
+                    <!-- <label class='form-label' for="img">Image URL</label>
+                    <input class='form-control' type="text" id="img" name='campground[image]' required>
+                    <div class='invalid-feedback'>At least one campground image should be provided.</div>
+                    <div class='valid-feedback'>Looks good!</div> -->
+                </div>
+
+                <div class='mb-3'>
+                    <label class='form-label' for="description">Description</label>
+                    <textarea class='form-control' type="text" id="description" name='campground[description]'
+                        required></textarea>
+                    <div class='invalid-feedback'>Campground activities should be provided.</div>
+                    <div class='valid-feedback'>Looks good!</div>
+                </div>
+                <div class='mb-3'>
+                    <button class='btn btn-success w-auto mx-2'>Add Campground</button>
+                    <button type='button' class='btn btn-dark w-auto mx-2'
+                        onclick="window.location.href ='/campgrounds';">Back</button>
+                </div>
+            </form>
+        </div>
+    </div>

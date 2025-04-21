@@ -1,0 +1,13 @@
+#item {
+    cursor: pointer;
+    /* Changes the cursor to a pointer when hovering over the card */
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+    /* Adds smooth transition for hover effects */
+}
+
+#item:hover {
+    opacity: 0.8;
+    /* Fades the card slightly when hovered */
+    background-color: #f0f0f0;
+    /* Change the background color on hover (optional) */
+}
