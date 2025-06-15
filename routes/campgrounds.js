@@ -14,15 +14,16 @@ const upload = multer({ storage: cloudinaryStorage });
 
 router.route('/')
     .get(catchAsync(campground.index))
-    .post(isLoggedIn, validateCampground, upload.array('image'), catchAsync(campground.createCampground));
-
+    .post(isLoggedIn, upload.array('image'), validateCampground, catchAsync(campground.createCampground));
 router.get('/new', isLoggedIn, campground.renderCreateCampground);
 
 router.route('/:id')
     .get(campgroundExists, catchAsync(campground.renderCampground))
-    .put(isLoggedIn, campgroundExists, storeReturnTo, isAuthor, validateCampground, catchAsync(campground.updateCampground))
-    .delete(isLoggedIn, campgroundExists, storeReturnTo, isAuthor, catchAsync(campground.deleteCampground))
+    .put(isLoggedIn, campgroundExists, storeReturnTo, isAuthor, upload.array('image'), validateCampground, catchAsync(campground.updateCampground))
+    .delete(isLoggedIn, campgroundExists, storeReturnTo, isAuthor, catchAsync(campground.deleteCampground));
 
-router.get('/updateCampground/:id', isLoggedIn, campgroundExists, storeReturnTo, isAuthor, catchAsync(campground.renderUpdateCampground))
+router.route('/updateCampground/:id')
+    .get(isLoggedIn, campgroundExists, storeReturnTo, isAuthor, catchAsync(campground.renderUpdateCampground))
+    .delete()
 
 module.exports = router;

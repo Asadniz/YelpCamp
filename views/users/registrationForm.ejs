@@ -1,24 +1,72 @@
-<% layout('layouts/boilerplate') %>
-    <h1 class='title text-center'>Register your account</h1>
-    <div class='row justify-content-center'>
-        <div class="col-md-6 ">
-            <form class="form needsValidation" action="/register" method="post" novalidate>
-                <div class='mb-3'>
-                    <label class="form-label" for="username">Username: </label>
-                    <input class="form-control" type="text" name="username" id="username" required>
-                    <div class='valid-feedback'>Looks Good!</div>
+<% layout('layouts/boilerplate')%>
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+                <div class="card shadow">
+                    <img src="https://images.unsplash.com/photo-1571863533956-01c88e79957e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80"
+                        alt="" class="card-img-top" />
+                    <div class="card-body">
+                        <h5 class="card-title">Register</h5>
+                        <form action="/register" id="registrationForm" method="POST" class="validated-form" novalidate>
+                            <div class="mb-3">
+                                <label class="form-label" for="username">Username</label>
+                                <input class="form-control" type="text" id="username" name="username" required
+                                    autofocus>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+                            <label class="form-label" for="email">Email</label>
+                            <input class="form-control" type="email" id="email" name="email"
+                                pattern="[a-zA-Z0-9._%+-]+@gmail.com" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class='invalid-feedback'>
+                                field must end with "@gmail.com".
+                            </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="password">Password</label>
+                        <input class="form-control" type="password" id="password" name="password" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <button class="btn btn-success btn-block">Register</button>
+                    </form>
+
                 </div>
-                <div class='mb-3'>
-                    <label class="form-label" for="email">Email: </label>
-                    <input class="form-control" type="email" name="email" id="email" required>
-                    <div class='valid-feedback'>Looks Good!</div>
-                </div>
-                <div class='mb-3'>
-                    <label class="form-label" for="password">Password: </label>
-                    <input class="form-control" type="password" name="password" id="password" required>
-                    <div class='valid-feedback'>Looks Good!</div>
-                </div>
-                <button class='btn btn-primary'>Register Account</button>
-            </form>
+            </div>
         </div>
     </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('registrationForm');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); // Always prevent default submission for demo
+
+            if (!form.checkValidity()) {
+                e.stopPropagation();
+            } else {
+                // Form is valid - you can submit here
+                console.log('Form is valid! Email:', document.getElementById('email').value);
+            }
+
+            form.classList.add('was-validated'); // shows Bootstrap feedback
+        });
+
+        // Optional: Real-time validation feedback
+        document.getElementById('email').addEventListener('input', function () {
+            const email = this.value;
+            const isGmail = /^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email);
+
+            if (email && !isGmail) {
+                this.setCustomValidity('Please enter a valid Gmail address');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    </script>

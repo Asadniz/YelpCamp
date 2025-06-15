@@ -1,9 +1,13 @@
 <% layout('layouts/boilerplate') %>
+    <script>
+        const campground = <%- JSON.stringify(campground) %> ;
+    </script>
+    <link rel="stylesheet" href="/css/index.css">
     <h1 class='text-center mb-3'>Update Campground</h1>
     <div class="row">
         <div class="col-md-6 offset-3 mt-2">
             <form class="needsValidation" action="/campgrounds/<%=campground._id%>?_method=put" method="post"
-                novalidate>
+                enctype="multipart/form-data" novalidate>
                 <div class='mb-3'>
                     <label class='form-label' for="title">Title</label>
                     <input class='form-control' type="text" id="title" name='campground[title]'
@@ -22,20 +26,65 @@
                     </div>
                 </div>
                 <div class='mb-3'>
+                    <div id="map"></div>
                     <label class='form-label' for="location">Location</label>
                     <input class='form-control' type="text" id="location" name='campground[location]'
-                        value="<%=campground.location%>" required>
+                        value="<%=campground.geometry.place%>" required>
                     <div class='invalid-feedback'>Campground location must be defined.</div>
                     <div class='valid-feedback'>Looks good!</div>
                 </div>
 
                 <div class='mb-3'>
-                    <label class='form-label' for="image">Image URL</label>
-                    <input class='form-control' type="text" id="image" name='campground[image]'
-                        value="<%=campground.image%>" required>
-                    <div class='invalid-feedback'>At least one campground image should be provided.</div>
-                    <div class='valid-feedback'>Looks good!</div>
+                    <label class='form-label' for="image">Upload Images</label>
+                    <input class='form-control' type="file" id="image" name="image" multiple>
+                    <div class='invalid-feedback'>Please upload campground images.</div>
                 </div>
+
+                <!-- Current Images Section -->
+                <div class="mb-3">
+                    <label class="form-label">Current Image(s)</label>
+
+                    <!-- Only show carousel if there are images -->
+                    <% if (campground.image && campground.image.length) { %>
+                        <div id="campgroundCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <% campground.image.forEach((img, i)=> { %>
+                                    <div class="carousel-item <%= i === 0 ? 'active' : '' %>"
+                                        id="carousel-item-<%= i %>">
+                                        <img src="<%= img.thumbnailUpdate %>"
+                                            class="d-block w-auto img-thumbnail carousel-image"
+                                            data-image-id="<%= img.filename %>" alt="<%= campground.title %>">
+                                    </div>
+                                    <% }) %>
+                            </div>
+
+                            <% if (campground.image.length> 1) { %>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#campgroundCarousel"
+                                    data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#campgroundCarousel"
+                                    data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                                <% } %>
+                        </div>
+
+                        <!-- Delete button for current visible image -->
+                        <div class="card-body p-1 mt-2">
+                            <button type="button" class="btn btn-sm btn-danger w-100 delete-current-image-btn">
+                                <i class="bi bi-trash"></i> Delete Current Image
+                            </button>
+                        </div>
+                        <% } else { %>
+                            <div class="alert alert-info">No images available for this campground.</div>
+                            <% } %>
+                </div>
+
+                <!-- Hidden input for tracking deleted images -->
+                <input type="hidden" name="deleteImages" id="deleteImagesInput" value="">
 
                 <div class='mb-4'>
                     <label class='form-label' for="description">Description</label>
@@ -53,3 +102,61 @@
             </form>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Array to track deleted image IDs
+            const deletedImageIds = [];
+            const deleteImagesInput = document.getElementById('deleteImagesInput');
+            const carousel = document.getElementById('campgroundCarousel');
+
+            // Add click handler for delete button
+            const deleteButton = document.querySelector('.delete-current-image-btn');
+            if (deleteButton) {
+                deleteButton.addEventListener('click', function () {
+                    // Get the active carousel item
+                    const activeItem = carousel.querySelector('.carousel-item.active');
+                    if (!activeItem) return;
+
+                    // Get the image inside the active item
+                    const activeImage = activeItem.querySelector('.carousel-image');
+                    if (!activeImage) return;
+
+                    // Get the image ID (filename)
+                    const imageId = activeImage.getAttribute('data-image-id');
+                    console.log("Deleting image:", imageId);
+
+                    // Add to deleted images list
+                    if (imageId && !deletedImageIds.includes(imageId)) {
+                        deletedImageIds.push(imageId);
+                        deleteImagesInput.value = deletedImageIds.join(',');
+                    }
+
+                    // Remove the carousel item
+                    activeItem.remove();
+
+                    // If that was the last image, hide carousel and show "no images" message
+                    if (carousel.querySelectorAll('.carousel-item').length === 0) {
+                        carousel.style.display = 'none';
+                        deleteButton.style.display = 'none';
+
+                        const noImagesMsg = document.createElement('div');
+                        noImagesMsg.className = 'alert alert-info';
+                        noImagesMsg.textContent = 'All images removed. Upload new ones to replace them.';
+                        carousel.parentNode.appendChild(noImagesMsg);
+                    } else {
+                        // Activate the next item if available
+                        const nextItem = carousel.querySelector('.carousel-item');
+                        if (nextItem) {
+                            nextItem.classList.add('active');
+                        }
+                    }
+
+                    // Show a confirmation message (optional)
+                    alert('Image marked for deletion. Save the form to confirm changes.');
+                });
+            }
+        });
+    </script>
+
+    <script src="/js/renderMap.js"></script>

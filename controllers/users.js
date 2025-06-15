@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const isValidHttpUrl = require('../utils/isValidHttpUrl');
 
 module.exports.renderRegistrationForm = (req, res) => {
     res.render('users/registrationForm');
@@ -30,11 +31,14 @@ module.exports.renderLoginForm = (req, res) => {
 module.exports.loginUser = (req, res) => {
     const returnTo = res.locals.returnTo;
     console.log('successfully logged in.');
-    req.flash('success', 'Welcome back ' + req.body.username + '!');
-    if (returnTo) {
+    req.flash('success', 'Welcome back ' + req.body.username + '.');
+    if (isValidHttpUrl(returnTo)) {
+        console.log(returnTo);
         res.redirect(returnTo);
     }
     else {
+        console.log(returnTo);
+        console.log("Invalid URL, redirecting to /campgrounds...");
         res.redirect('/campgrounds');
     }
 }

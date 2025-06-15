@@ -1,4 +1,9 @@
 <% layout('layouts/boilerplate') %>
+    <script>
+        const coord1 = '11';
+        const coord2 = '10';
+        let campground = '';
+    </script>
     <div class='row'>
         <h1 class='text-center pb-3'>Add Campground</h1>
         <div class='col-md-6 offset-3'>
@@ -23,6 +28,7 @@
                 </div>
 
                 <div class='mb-3'>
+                    <div id="map" style="width: 400px; height: 300px;"></div>
                     <label class='form-label' for="location">Location</label>
                     <input class='form-control' type="text" id="location" name='campground[location]' required>
                     <div class='invalid-feedback'>Campground location must be defined.</div>
@@ -30,11 +36,9 @@
                 </div>
 
                 <div class='mb-3'>
-                    <input type="file" name='image' multiple>
-                    <!-- <label class='form-label' for="img">Image URL</label>
-                    <input class='form-control' type="text" id="img" name='campground[image]' required>
-                    <div class='invalid-feedback'>At least one campground image should be provided.</div>
-                    <div class='valid-feedback'>Looks good!</div> -->
+                    <label class='form-label' for="image">Upload Images</label>
+                    <input class='form-control bs-custom-file-input' type="file" id="image" name="image" multiple>
+                    <div class='invalid-feedback'>Please upload campground images.</div>
                 </div>
 
                 <div class='mb-3'>
@@ -52,3 +56,5 @@
             </form>
         </div>
     </div>
+
+    <script src="/js/renderMap.js"></script>

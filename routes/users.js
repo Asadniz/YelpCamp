@@ -4,10 +4,11 @@ const user = require('../controllers/users');
 const catchAsync = require('../utils/catchAsync');
 const passport = require('passport');
 const storeReturnTo = require('../utils/storeReturnTo');
+const { validateUser } = require('../schemas.js');
 
 router.route('/register')
     .get(user.renderRegistrationForm)
-    .post(catchAsync(user.registerUser));
+    .post(validateUser, catchAsync(user.registerUser));
 
 router.route('/login')
     .get(user.renderLoginForm)
