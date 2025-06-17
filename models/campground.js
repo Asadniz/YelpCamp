@@ -3,7 +3,7 @@ const Review = require('./review');
 const User = require('./user');
 const Schema = mongoose.Schema;
 
-const ImageSchema = new Schema({ url: String, filename: String })
+const ImageSchema = new Schema({ url: String, filename: String, etag: String })
 ImageSchema.virtual('thumbnailShow').get(function () {
     return this.url.replace('/upload', '/upload/w_400,h_250');
 })

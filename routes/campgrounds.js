@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const campground = require('../controllers/campground');
 const catchAsync = require('../utils/catchAsync');
+const checkDuplicateImage = require('../utils/checkDuplicateImage');
+const getEtags = require('../utils/getEtags');
 const { validateCampground } = require('../schemas')
 const isLoggedIn = require('../utils/isLoggedIn');
 const campgroundExists = require('../utils/campgroundExists');
@@ -14,7 +16,7 @@ const upload = multer({ storage: cloudinaryStorage });
 
 router.route('/')
     .get(catchAsync(campground.index))
-    .post(isLoggedIn, upload.array('image'), validateCampground, catchAsync(campground.createCampground));
+    .post(isLoggedIn, upload.array('image'), validateCampground, getEtags, checkDuplicateImage, catchAsync(campground.createCampground));
 router.get('/new', isLoggedIn, campground.renderCreateCampground);
 
 router.route('/:id')

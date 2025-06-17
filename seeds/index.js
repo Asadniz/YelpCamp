@@ -30,7 +30,7 @@ const seedDB = async () => {
             price: Math.floor(Math.random() * 75),
             description: "Lorem Ipsum Dolor",
             geometry: { type: "Point", coordinates: [cities[rand1000].longitude, cities[rand1000].latitude], place: cities[rand1000].city + ", " + cities[rand1000].state },
-            image: [{ url: 'https://res.cloudinary.com/dykrocdnq/image/upload/YelpCamp/dooxo2kmm2z1tendwwf2', filename: `img${Math.random()}` }],
+            image: [{ url: 'https://res.cloudinary.com/dykrocdnq/image/upload/YelpCamp/smprh2eob7oe5gxvcdf3', filename: `img${Math.random()}` }],
             author: '6772fd72be8fe3b7ffa91555'
         })
         await camp.save();

@@ -1,6 +1,7 @@
 const Campground = require('../models/campground');
 const ExpressError = require('../utils/ExpressError');
 const { cloudinary } = require('../cloudinary');
+const crypto = require('crypto');
 const maptilerClient = require("@maptiler/client");
 maptilerClient.config.apiKey = process.env.MAPTILER_API_KEY;
 
@@ -47,8 +48,10 @@ module.exports.createCampground = async (req, res) => {
     campground.geometry.coordinates = geoData.features[0].geometry.coordinates;
     campground.geometry.place = data.location;
     campground.author = req.user._id;
-    campground.image = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    campground.image = req.session.images;
+
     await campground.save();
+    console.log(campground);
     req.flash('success', "Campround created successfully.");
     res.redirect(`/campgrounds/${campground._id}`);
 }
